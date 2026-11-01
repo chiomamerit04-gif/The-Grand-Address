@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}The Grand Address | Discover Exceptional Places{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+{% endblock %}
+{% block content %}
+<!-- HERO SECTION -->
+<section class="hero" style="background-image: url('{% static 'images/hero.png' %}');">
+  <div class="hero-content">
+    <span class="hero-tag">A BETTER WAY TO EXPERIENCE TRAVEL</span>
+    <h1>Find your place in the <span>extraordinary.</span></h1>
+    <p>
+      Discover exceptional homes, beautiful spaces and unforgettable places for
+      your next getaway.
+    </p>
+    <form class="search-box">
+      <div class="search-field">
+        <label for="destination">WHERE</label>
+        <input type="text" id="destination" placeholder="Search destinations" />
+      </div>
+      <div class="search-field">
+        <label for="checkin">CHECK IN</label>
+        <input type="date" id="checkin" />
+      </div>
+      <div class="search-field">
+        <label for="checkout">CHECK OUT</label>
+        <input type="date" id="checkout" />
+      </div>
+      <div class="search-field">
+        <label for="guests">GUESTS</label>
+        <select id="guests">
+          <option value="1">1 Guest</option>
+          <option value="2" selected>2 Guests</option>
+          <option value="3">3 Guests</option>
+          <option value="4">4 Guests</option>
+          <option value="5">5+ Guests</option>
+        </select>
+      </div>
+      <button type="submit" class="search-btn">Search</button>
+    </form>
+  </div>
+</section>
+<!-- INTRODUCTION -->
+<section class="intro-section container">
+  <div>
+    <span class="section-tag">WELCOME TO THE GRAND ADDRESS</span>
+    <h2>Not just a place to stay.<br />Somewhere to belong.</h2>
+  </div>
+  <p>
+    Whether you're planning a weekend escape, a family holiday or a business
+    trip, discover spaces that make every journey feel special.
+  </p>
+</section>
+<!-- POPULAR DESTINATIONS -->
+<section class="destinations-section container">
+  <div class="section-heading">
+    <div>
+      <span class="section-tag">EXPLORE THE WORLD</span>
+      <h2>Popular destinations</h2>
+      <p>Find your next favourite place.</p>
+    </div>
+    <a href="{% url 'property_list' %}" class="view-all">Explore all destinations &rarr;</a>
+  </div>
+  <div class="destination-grid">
+    <a href="{% url 'property_list' %}" class="destination-card">
+      <img src="{% static 'images/lagos.png' %}" alt="Lagos city" />
+      <div class="destination-overlay">
+        <h3>Lagos</h3>
+        <p>Nigeria</p>
+      </div>
+    </a>
+    <a href="{% url 'property_list' %}" class="destination-card">
+      <img src="{% static 'images/abuja.png' %}" alt="Abuja city" />
+      <div class="destination-overlay">
+        <h3>Abuja</h3>
+        <p>Nigeria</p>
+      </div>
+    </a>
+    <a href="{% url 'property_list' %}" class="destination-card">
+      <img src="{% static 'images/london.png' %}" alt="London city" />
+      <div class="destination-overlay">
+        <h3>London</h3>
+        <p>United Kingdom</p>
+      </div>
+    </a>
+    <a href="{% url 'property_list' %}" class="destination-card">
+      <img src="{% static 'images/dubai.png' %}" alt="Dubai city" />
+      <div class="destination-overlay">
+        <h3>Dubai</h3>
+        <p>United Arab Emirates</p>
+      </div>
+    </a>
+  </div>
+</section>
+<!-- FEATURED PROPERTIES -->
+<section class="properties-section">
+  <div class="container">
+    <div class="section-heading">
+      <div>
+        <span class="section-tag">HANDPICKED FOR YOU</span>
+        <h2>Featured properties</h2>
+        <p>Exceptional spaces worth discovering.</p>
+      </div>
+      <a href="{% url 'property_list' %}" class="view-all">View all properties &rarr;</a>
+    </div>
+    <div class="property-grid">
+      {% for property in properties %}
+      <article class="property-card">
+        <div class="property-image">
+          <img src="{{ property.image.url }}" alt="{{ property.name }}" />
+          <span class="property-badge">Featured stay</span>
+          <button class="favourite-btn" aria-label="Add to favourites">
+            &#9825;
+          </button>
+        </div>
+        <div class="property-info">
+          <div class="property-title">
+            <h3>{{ property.name }}</h3>
+          </div>
+          <p>{{ property.location }}</p>
+          <p>{{ property.bedrooms }} bedrooms · {{ property.bathrooms }} bathrooms</p>
+          <div class="property-price">
+            <strong>₦{{ property.price_per_night|floatformat:0 }}</strong>
+            <span>/ night</span>
+          </div>
+          <a href="{% url 'property_detail' property.id %}">View Details</a>
+        </div>
+      </article>
+      {% empty %}
+      <p>No featured properties available at the moment.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<!-- WHY CHOOSE US -->
+<section class="why-section container">
+  <div class="why-content">
+    <span class="section-tag">THE GRAND ADDRESS EXPERIENCE</span>
+    <h2>Every journey deserves an exceptional address.</h2>
+    <p>
+      We make discovering and booking beautiful accommodation simple, convenient
+      and enjoyable.
+    </p>
+    <div class="benefits-grid">
+      <div class="benefit">
+        <span class="benefit-icon">&#10003;</span>
+        <div>
+          <h3>Carefully selected spaces</h3>
+          <p>Discover quality accommodation for every occasion.</p>
+        </div>
+      </div>
+      <div class="benefit">
+        <span class="benefit-icon">&#9733;</span>
+        <div>
+          <h3>Seamless booking</h3>
+          <p>Find and reserve your next destination with ease.</p>
+        </div>
+      </div>
+      <div class="benefit">
+        <span class="benefit-icon">&#9825;</span>
+        <div>
+          <h3>Made for your comfort</h3>
+          <p>Enjoy spaces designed to make you feel at home.</p>
+        </div>
+      </div>
+      <div class="benefit">
+        <span class="benefit-icon">&#9670;</span>
+        <div>
+          <h3>Memorable experiences</h3>
+          <p>Make every trip one worth remembering.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="why-image">
+    <img
+      src="{% static 'images/experience.png' %}"
+      alt="Beautiful luxury accommodation interior"
+    />
+  </div>
+</section>
+<!-- HOST CTA -->
+<section class="host-section container">
+  <div class="host-content">
+    <span class="section-tag">SHARE YOUR SPACE</span>
+    <h2>Have a beautiful space? Let the world discover it.</h2>
+    <p>
+      Turn your property into an opportunity. Welcome guests and become part of
+      The Grand Address.
+    </p>
+    <a href="#" class="host-btn">Become a host &rarr;</a>
+  </div>
+</section>
+{% endblock %}

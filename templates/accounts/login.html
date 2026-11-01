@@ -1,0 +1,73 @@
+{% extends "base.html" %} {% load static %} {% block title %}Login | The Grand
+Address{% endblock %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}" />
+{% endblock %} {% block content %}
+<section class="auth-page">
+  <div class="auth-container">
+    <div class="auth-image">
+      <img
+        src="{% static 'images/experience.png' %}"
+        alt="Luxury experience at The Grand Address"
+      />
+      <div class="auth-image-overlay">
+        <span>THE GRAND ADDRESS</span>
+        <h2>Every extraordinary stay begins somewhere.</h2>
+        <p>Discover exceptional spaces and experiences.</p>
+      </div>
+    </div>
+    <div class="auth-form-container">
+      <div class="auth-heading">
+        <span class="auth-eyebrow">WELCOME BACK</span>
+        <h1>Welcome back.</h1>
+        <p>Sign in to continue your journey with us.</p>
+      </div>
+      <form
+        class="auth-form"
+        id="loginForm"
+        method="POST"
+        action="{% url 'login' %}"
+      >
+        {% csrf_token %} {% if form.non_field_errors %}
+        <div class="form-errors">{{ form.non_field_errors }}</div>
+        {% endif %}
+        <div class="auth-input-group">
+          <label for="{{ form.username.id_for_label }}">Username</label>
+          {{ form.username }} {{ form.username.errors }}
+        </div>
+        <div class="auth-input-group">
+          <div class="password-label">
+            <label for="{{ form.password.id_for_label }}">Password</label>
+            <a href="#">Forgot password?</a>
+          </div>
+          <div class="password-field">
+            {{ form.password }}
+            <button
+              type="button"
+              class="toggle-password"
+              data-target="{{ form.password.id_for_label }}"
+              aria-label="Show password"
+            >
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          {{ form.password.errors }}
+        </div>
+        <button type="submit" class="auth-submit">
+          Sign in <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+      <div class="auth-switch">
+        <p>
+          Don't have an account? <a href="{% url 'register' %}">Create an account</a>
+        </p>
+      </div>
+      <div class="auth-footer">
+        <span>THE GRAND ADDRESS</span>
+        <p>Find your place in the extraordinary.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %} {% block extra_js %}
+<script src="{% static 'js/auth.js' %}"></script>
+{% endblock %}

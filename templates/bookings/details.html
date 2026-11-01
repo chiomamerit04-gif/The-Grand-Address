@@ -1,0 +1,221 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ property.name }} | The Grand Address{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/details.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% if not property.available %}
+    <p class="availability-message">
+        Sorry, this property is currently unavailable for booking.
+    </p>
+{% endif %}
+
+<section class="details-page">
+    <div class="details-container">
+        <div class="details-top">
+            <div>
+                <span class="eyebrow">THE GRAND COLLECTION</span>
+                <h1>{{ property.name }}</h1>
+                <p class="details-location">{{ property.location }}</p>
+            </div>
+            <div class="details-actions">
+                <button type="button" id="shareProperty">↗ Share</button>
+                <button type="button" id="saveProperty">♡ Save</button>
+            </div>
+        </div>
+        <div class="property-gallery">
+            <div class="gallery-main">
+                <img src="{{ property.image.url }}" alt="{{ property.name }}">
+            </div>
+            <div class="gallery-side">
+                <img src="{% static 'images/property2.png' %}" alt="Property interior">
+                <img src="{% static 'images/property3.png' %}" alt="Property living area">
+                <img src="{% static 'images/property4.png' %}" alt="Property bedroom">
+                <div class="gallery-last">
+                    <img src="{% static 'images/experience.png' %}" alt="Property experience">
+                    <button type="button" id="viewAllPhotos">View all photos</button>
+                </div>
+            </div>
+        </div>
+        <div class="details-layout">
+            <main class="property-main">
+                <div class="property-overview">
+                    <div>
+                        <h2>Entire property hosted by The Grand Address</h2>
+                        <p>{{ property.guests }} guests · {{ property.bedrooms }} bedrooms · {{ property.bathrooms }} bathrooms</p>
+                    </div>
+                    <div class="host-avatar">GA</div>
+                </div>
+                <div class="details-highlights">
+                    <div class="highlight-item">
+                        <span class="highlight-icon">✦</span>
+                        <div>
+                            <h3>Exceptional stay</h3>
+                            <p>Guests love the comfort and quality.</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">⌂</span>
+                        <div>
+                            <h3>Prime location</h3>
+                            <p>Located in a desirable neighbourhood.</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <span class="highlight-icon">✓</span>
+                        <div>
+                            <h3>Quality assured</h3>
+                            <p>Carefully selected for your comfort.</p>
+                        </div>
+                    </div>
+                </div>
+                <section class="details-section">
+                    <h2>About this property</h2>
+                    <p>{{ property.description }}</p>
+                    <button type="button" class="text-link" id="readMore">Read more</button>
+                </section>
+                <section class="details-section">
+                    <h2>What this place offers</h2>
+                    <div class="amenities-grid">
+                        <div class="amenity-item"><span>⌂</span> Fully equipped kitchen</div>
+                        <div class="amenity-item"><span>⌁</span> High-speed Wi-Fi</div>
+                        <div class="amenity-item"><span>▣</span> Free parking</div>
+                        <div class="amenity-item"><span>❄</span> Air conditioning</div>
+                        <div class="amenity-item"><span>▤</span> Smart television</div>
+                        <div class="amenity-item"><span>♨</span> Swimming pool</div>
+                        <div class="amenity-item"><span>♧</span> Gym access</div>
+                        <div class="amenity-item"><span>✧</span> 24-hour security</div>
+                    </div>
+                    <button type="button" class="outline-btn" id="showAmenities">Show all amenities</button>
+                </section>
+                <section class="details-section">
+                    <h2>Where you'll be</h2>
+                    <p class="map-location">{{ property.location }}</p>
+                    <div class="property-map">
+                        <img src="{% static 'images/property-map.png' %}" alt="Map showing the property's location">
+                        <span>Property location</span>
+                    </div>
+                    <p class="location-description">
+                        Explore the surroundings of {{ property.location }} and enjoy a comfortable stay at {{ property.name }}.
+                    </p>
+                </section>
+                <section class="details-section reviews-section">
+                    <div class="reviews-heading">
+                        <h2>★ 4.9 · Guest reviews</h2>
+                        <span>28 reviews</span>
+                    </div>
+                    <div class="review-grid">
+                        <article class="review-card">
+                            <div class="review-user">
+                                <div class="review-avatar">AM</div>
+                                <div>
+                                    <h4>Amara M.</h4>
+                                    <span>March 2026</span>
+                                </div>
+                            </div>
+                            <p>Beautiful apartment, very clean and comfortable. The location was excellent and the entire experience was smooth.</p>
+                        </article>
+                        <article class="review-card">
+                            <div class="review-user">
+                                <div class="review-avatar">JO</div>
+                                <div>
+                                    <h4>James O.</h4>
+                                    <span>February 2026</span>
+                                </div>
+                            </div>
+                            <p>The apartment looked just like the pictures. I especially loved the interior and the peaceful atmosphere.</p>
+                        </article>
+                        <article class="review-card">
+                            <div class="review-user">
+                                <div class="review-avatar">EK</div>
+                                <div>
+                                    <h4>Esther K.</h4>
+                                    <span>January 2026</span>
+                                </div>
+                            </div>
+                            <p>A lovely place to stay. Everything was well arranged, and communication was excellent throughout.</p>
+                        </article>
+                        <article class="review-card">
+                            <div class="review-user">
+                                <div class="review-avatar">TO</div>
+                                <div>
+                                    <h4>Tobi O.</h4>
+                                    <span>December 2025</span>
+                                </div>
+                            </div>
+                            <p>Very stylish and comfortable. I would definitely consider staying here again on my next visit.</p>
+                        </article>
+                    </div>
+                    <button type="button" class="outline-btn">Show all 28 reviews</button>
+                </section>
+                <section class="details-section host-section">
+                    <div class="host-profile">
+                        <div class="host-avatar large">GA</div>
+                        <div>
+                            <h2>Hosted by The Grand Address</h2>
+                            <p>Property host · Hosting since 2024</p>
+                        </div>
+                    </div>
+                    <p>
+                        We believe every stay should feel special. Our team is committed to providing carefully selected accommodation and a welcoming experience for every guest.
+                    </p>
+                    <button type="button" class="outline-btn">Contact host</button>
+                </section>
+            </main>
+            <aside class="booking-card">
+                <div class="booking-price">
+                    <h2>₦{{ property.price_per_night|floatformat:0 }} <span>/ night</span></h2>
+                    <div class="booking-rating">★ 4.9 <span>· 28 reviews</span></div>
+                </div>
+                <form id="detailsBookingForm">
+                    <div class="booking-dates">
+                        <div>
+                            <label for="detailsCheckin">CHECK-IN</label>
+                            <input type="date" id="detailsCheckin" required>
+                        </div>
+                        <div>
+                            <label for="detailsCheckout">CHECK-OUT</label>
+                            <input type="date" id="detailsCheckout" required>
+                        </div>
+                    </div>
+                    <div class="booking-guests">
+                        <label for="detailsGuests">GUESTS</label>
+                        <select id="detailsGuests">
+                            <option value="1">1 guest</option>
+                            <option value="2" selected>2 guests</option>
+                            <option value="3">3 guests</option>
+                            <option value="4">4 guests</option>
+                        </select>
+                    </div>
+                    {% if property.available %}
+                        <a href="{% url 'booking' property.id %}" class="reserve-btn">Book This Property</a>
+                    {% else %}
+                        <button type="button" class="reserve-btn" disabled>Currently Unavailable</button>
+                    {% endif %}
+                </form>
+                <div class="price-breakdown" id="priceBreakdown" hidden>
+                    <div>
+                        <span>₦180,000 × <span id="nightCount">0</span> nights</span>
+                        <strong id="stayCost">₦0</strong>
+                    </div>
+                    <div><span>Service fee</span><strong id="serviceFee">₦0</strong></div>
+                    <div class="total-price">
+                        <span>Total before taxes</span>
+                        <strong id="totalCost">₦0</strong>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/details.js' %}"></script>
+{% endblock %}

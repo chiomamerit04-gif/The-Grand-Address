@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}About Us | The Grand Address{% endblock %}
+{% block content %}
+<section class="about-hero">
+    <div class="about-hero-content">
+        <span class="section-eyebrow">OUR STORY</span>
+        <h1>More than a stay.<br>A feeling of belonging.</h1>
+        <p>We believe every journey deserves an extraordinary place to call home.</p>
+    </div>
+</section>
+<section class="about-intro">
+    <div class="about-intro-image">
+        <img src="{% static 'images/experience.png' %}" alt="An extraordinary guest experience">
+    </div>
+    <div class="about-intro-content">
+        <span class="section-eyebrow">WHO WE ARE</span>
+        <h2>Redefining the way you experience a stay.</h2>
+        <p>The Grand Address was created with a simple vision: to make finding exceptional accommodation effortless, personal and memorable.</p>
+        <p>Whether you're travelling for business, planning a weekend escape or discovering somewhere new, we help you find spaces that feel just right.</p>
+        <p>From thoughtfully selected residences to exceptional guest experiences, every detail matters to us.</p>
+    </div>
+</section>
+<section class="about-values">
+    <div class="about-section-heading">
+        <span class="section-eyebrow">WHAT GUIDES US</span>
+        <h2>Our values</h2>
+        <p>The principles behind every experience we create.</p>
+    </div>
+    <div class="values-grid">
+        <article class="value-card">
+            <span><i class="fa-solid fa-gem"></i></span>
+            <h3>Exceptional quality</h3>
+            <p>We believe great stays begin with carefully selected properties and attention to detail.</p>
+        </article>
+        <article class="value-card">
+            <span><i class="fa-solid fa-heart"></i></span>
+            <h3>Guest first</h3>
+            <p>Your comfort and experience remain at the centre of everything we do.</p>
+        </article>
+        <article class="value-card">
+            <span><i class="fa-solid fa-shield-halved"></i></span>
+            <h3>Trust and reliability</h3>
+            <p>We aim to make every stage of your booking experience clear, secure and dependable.</p>
+        </article>
+    </div>
+</section>
+<section class="about-experience">
+    <div class="about-experience-content">
+        <span class="section-eyebrow">THE GRAND ADDRESS EXPERIENCE</span>
+        <h2>Find a place that feels like it was chosen just for you.</h2>
+        <p>Discover beautiful spaces, explore new destinations and enjoy a more thoughtful way to travel.</p>
+<a href="{% url 'property_list' %}" class="about-button">Explore properties <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="about-experience-image">
+        <img src="{% static 'images/property2.png' %}" alt="A property from The Grand Address">
+    </div>
+</section>
+{% endblock %}

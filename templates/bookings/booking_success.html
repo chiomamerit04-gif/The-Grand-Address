@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Booking Successful | The Grand Address{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/booking.css' %}">
+{% endblock %}
+{% block content %}
+<section class="confirmation-page">
+    <div class="confirmation-container">
+        <div class="confirmation-header">
+            <div class="confirmation-icon">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h1>Booking Submitted Successfully!</h1>
+            <p>Thank you for choosing The Grand Address. Your booking has been received and is awaiting confirmation.</p>
+            <div class="confirmation-reference">
+                <span>Booking Reference</span>
+                <strong>#{{ booking.id }}</strong>
+            </div>
+        </div>
+        <div class="confirmation-card">
+            <h2>Your Property</h2>
+            <div class="confirmation-property">
+                <img src="{{ booking.property.image.url }}" alt="{{ booking.property.name }}">
+                <div>
+                    <span class="property-type">THE GRAND COLLECTION</span>
+                    <h3>{{ booking.property.name }}</h3>
+                    <p>{{ booking.property.location }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="confirmation-card">
+            <h2>Booking Details</h2>
+            <div class="confirmation-details">
+                <div class="confirmation-detail">
+                    <span>Guest name</span>
+                    <strong>{{ booking.full_name }}</strong>
+                </div>
+                <div class="confirmation-detail">
+                    <span>Email address</span>
+                    <strong>{{ booking.email }}</strong>
+                </div>
+                <div class="confirmation-detail">
+                    <span>Phone number</span>
+                    <strong>{{ booking.phone_number }}</strong>
+                </div>
+                <div class="confirmation-detail">
+                    <span>Booking date</span>
+                    <strong>{{ booking.booking_date|date:"d M Y" }}</strong>
+                </div>
+                <div class="confirmation-detail">
+                    <span>Booking status</span>
+                    <strong>{{ booking.status }}</strong>
+                </div>
+                <div class="confirmation-detail">
+                    <span>Price per night</span>
+                    <strong>₦{{ booking.property.price_per_night|floatformat:0 }}</strong>
+                </div>
+            </div>
+            {% if booking.special_requests %}
+                <div class="summary-divider"></div>
+                <div class="confirmation-detail">
+                    <span>Special requests</span>
+                    <strong>{{ booking.special_requests }}</strong>
+                </div>
+            {% endif %}
+        </div>
+        <div class="confirmation-actions">
+            <a href="{% url 'property_list' %}" class="confirmation-primary">Explore more stays</a>
+            <a href="{% url 'home' %}" class="confirmation-secondary">Back to home</a>
+        </div>
+        <p class="confirmation-help">Need assistance? <a href="{% url 'contact' %}">Contact us</a>.</p>
+    </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/bookings.js' %}"></script>
+{% endblock %}

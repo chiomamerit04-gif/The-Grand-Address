@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Booking Confirmed | The Grand Address{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/booking.css' %}">
+{% endblock %}
+{% block content %}
+<section class="confirmation-page">
+    <div class="confirmation-container">
+        <header class="confirmation-header">
+            <div class="confirmation-icon">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h1>Your booking is confirmed!</h1>
+            <p>Thank you for choosing The Grand Address. Your extraordinary stay is one step closer.</p>
+            <div class="confirmation-reference">
+                <span>Booking reference</span>
+                <strong>GA-2026-00128</strong>
+            </div>
+        </header>
+        <div class="confirmation-card">
+            <h2>Your reserved property</h2>
+            <div class="confirmation-property">
+                <img src="{% static 'images/property1.png' %}" alt="Modern Luxury Residence">
+                <div>
+                    <span class="property-type">LUXURY APARTMENT</span>
+                    <h3>Modern Luxury Residence</h3>
+                    <p><i class="fa-solid fa-location-dot"></i> Victoria Island, Lagos</p>
+                    <p><i class="fa-solid fa-star"></i> 4.9 Guest Rating</p>
+                </div>
+            </div>
+        </div>
+        <div class="confirmation-card">
+            <h2>Reservation details</h2>
+            <div class="confirmation-details">
+                <div class="confirmation-detail">
+                    <span>Check-in</span>
+                    <strong>To be confirmed</strong>
+                </div>
+                <div class="confirmation-detail">
+                    <span>Check-out</span>
+                    <strong>To be confirmed</strong>
+                </div>
+                <div class="confirmation-detail">
+                    <span>Guests</span>
+                    <strong>2 Guests</strong>
+                </div>
+                <div class="confirmation-detail">
+                    <span>Payment method</span>
+                    <strong>Card payment</strong>
+                </div>
+            </div>
+        </div>
+        <div class="confirmation-card">
+            <h2>Payment summary</h2>
+            <div class="summary-detail">
+                <span>Accommodation</span>
+                <strong>₦0</strong>
+            </div>
+            <div class="summary-detail">
+                <span>Service fee</span>
+                <strong>₦0</strong>
+            </div>
+            <div class="confirmation-total">
+                <span>Total amount</span>
+                <strong>₦0</strong>
+            </div>
+        </div>
+        <div class="confirmation-actions">
+            <button type="button" class="confirmation-primary" onclick="window.print()">
+                <i class="fa-solid fa-download"></i> Print confirmation
+            </button>
+            <a href="#" class="confirmation-secondary">
+                Return to homepage <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+        <p class="confirmation-help">Need help with your reservation? <a href="#">Contact our support team</a>.</p>
+    </div>
+</section>
+{% endblock %}

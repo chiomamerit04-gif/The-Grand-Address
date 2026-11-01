@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Contact Us | The Grand Address{% endblock %}
+{% block content %}
+<section class="contact-hero">
+    <div class="contact-hero-content">
+        <span class="section-eyebrow">GET IN TOUCH</span>
+        <h1>We're here to help.</h1>
+        <p>Questions, enquiries or special requests? We'd love to hear from you.</p>
+    </div>
+</section>
+<section class="contact-page">
+    <div class="contact-container">
+        <div class="contact-information">
+            <span class="section-eyebrow">LET'S CONNECT</span>
+            <h2>We'd love to hear from you.</h2>
+            <p>Whether you need help with a reservation, have a question about a property or simply want to learn more about us, our team is ready to assist.</p>
+            <div class="contact-info-item">
+                <span><i class="fa-regular fa-envelope"></i></span>
+                <div>
+                    <h3>Email us</h3>
+                    <p><a href="mailto:hello@thegrandaddress.com">hello@thegrandaddress.com</a></p>
+                </div>
+            </div>
+            <div class="contact-info-item">
+                <span><i class="fa-solid fa-phone"></i></span>
+                <div>
+                    <h3>Call us</h3>
+                    <p><a href="tel:+2348000000000">+234 800 000 0000</a></p>
+                </div>
+            </div>
+            <div class="contact-info-item">
+                <span><i class="fa-solid fa-location-dot"></i></span>
+                <div>
+                    <h3>Our location</h3>
+                    <p>Lagos, Nigeria</p>
+                </div>
+            </div>
+            <div class="contact-socials">
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+            </div>
+        </div>
+        <div class="contact-form-card">
+            <span class="section-eyebrow">SEND US A MESSAGE</span>
+            <h2>How can we help?</h2>
+             {% if messages %}
+    {% for message in messages %}
+        <p class="contact-message-status">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+            <form id="contactForm" method="POST">
+                {% csrf_token %}
+                <div class="contact-form-grid">
+                    <div class="contact-field">
+                        <label for="{{ form.first_name.id_for_label }}">First name</label>
+                        {{ form.first_name }}
+                        {% for error in form.first_name.errors %}
+                            <small class="error">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="contact-field">
+                        <label for="{{ form.last_name.id_for_label }}">Last name</label>
+                        {{ form.last_name }}
+                        {% for error in form.last_name.errors %}
+                            <small class="error">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="contact-field">
+                        <label for="{{ form.email.id_for_label }}">Email address</label>
+                        {{ form.email }}
+                        {% for error in form.email.errors %}
+                            <small class="error">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="contact-field">
+                        <label for="{{ form.phone.id_for_label }}">Phone number <span>(optional)</span></label>
+                        {{ form.phone }}
+                        {% for error in form.phone.errors %}
+                            <small class="error">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="contact-field full-contact-field">
+                        <label for="{{ form.subject.id_for_label }}">Subject</label>
+                        {{ form.subject }}
+                        {% for error in form.subject.errors %}
+                            <small class="error">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="contact-field full-contact-field">
+                        <label for="{{ form.message.id_for_label }}">Your message</label>
+                        {{ form.message }}
+                        {% for error in form.message.errors %}
+                            <small class="error">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% if form.non_field_errors %}
+                    <div class="error">{{ form.non_field_errors }}</div>
+                {% endif %}
+                <button type="submit" class="contact-submit">Send message <i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

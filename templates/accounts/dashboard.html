@@ -1,0 +1,358 @@
+{% extends "base.html" %} {% load static %} {% block title %}My Dashboard | The
+Grand Address{% endblock %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+{% endblock %} {% block content %}
+<section class="dashboard-page">
+  <div class="dashboard-container">
+    <aside class="dashboard-sidebar">
+      <div class="dashboard-profile">
+        <div class="profile-avatar">
+          {% if user.profile.image %}
+          <img src="{{ user.profile.image.url }}" alt="Profile picture" />
+          {% else %} {{ user.first_name|default:user.username|slice:":1"|upper
+          }}{{ user.last_name|slice:":1"|upper }} {% endif %}
+        </div>
+        <h3>{{ user.get_full_name|default:user.username }}</h3>
+        <p>Guest member</p>
+      </div>
+      <nav class="dashboard-nav">
+        <a
+          href="#overview"
+          class="dashboard-link active"
+          data-section="overview"
+          ><i class="fa-solid fa-border-all"></i> Overview</a
+        >
+        <a
+          href="#reservations"
+          class="dashboard-link"
+          data-section="reservations"
+          ><i class="fa-regular fa-calendar-check"></i> My reservations</a
+        >
+        <a href="#saved" class="dashboard-link" data-section="saved"
+          ><i class="fa-regular fa-heart"></i> Saved properties</a
+        >
+        <a href="#history" class="dashboard-link" data-section="history"
+          ><i class="fa-solid fa-clock-rotate-left"></i> Booking history</a
+        >
+        <a href="#settings" class="dashboard-link" data-section="settings"
+          ><i class="fa-regular fa-user"></i> Account settings</a
+        >
+      </nav>
+      <a href="#" class="dashboard-logout"
+        ><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</a
+      >
+    </aside>
+    <main class="dashboard-main">
+      <section class="dashboard-section active" id="overview">
+        <div class="dashboard-heading">
+          <div>
+            <span class="dashboard-eyebrow">YOUR PERSONAL SPACE</span>
+            <h1>Welcome back, {{ user.first_name|default:user.username }}.</h1>
+            <p>Here's what's happening with your stays.</p>
+          </div>
+          <a href="{% url 'property_list' %}" class="explore-button"
+            >Explore properties <i class="fa-solid fa-arrow-right"></i
+          ></a>
+        </div>
+        <div class="dashboard-stats">
+          <div class="stat-card">
+            <span class="stat-icon"
+              ><i class="fa-regular fa-calendar-check"></i
+            ></span>
+            <p>Upcoming stays</p>
+            <h2>02</h2>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon"><i class="fa-solid fa-house"></i></span>
+            <p>Completed stays</p>
+            <h2>08</h2>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon"><i class="fa-regular fa-heart"></i></span>
+            <p>Saved properties</p>
+            <h2>05</h2>
+          </div>
+        </div>
+        <div class="dashboard-content-card">
+          <div class="content-card-heading">
+            <div>
+              <h2>Upcoming reservations</h2>
+              <p>Your next extraordinary experiences.</p>
+            </div>
+            <a href="#reservations" class="view-all" data-section="reservations"
+              >View all</a
+            >
+          </div>
+          <div class="reservation-item">
+            <img
+              src="{% static 'images/property1.png' %}"
+              alt="Modern luxury residence"
+            />
+            <div class="reservation-info">
+              <span class="reservation-status">CONFIRMED</span>
+              <h3>Modern Luxury Residence</h3>
+              <p>
+                <i class="fa-solid fa-location-dot"></i> Victoria Island, Lagos
+              </p>
+              <div class="reservation-meta">
+                <span
+                  ><i class="fa-regular fa-calendar"></i> 12–15 November
+                  2026</span
+                >
+                <span><i class="fa-regular fa-user"></i> 2 Guests</span>
+              </div>
+            </div>
+            <a href="#" class="reservation-action">View details</a>
+          </div>
+          <div class="reservation-item">
+            <img
+              src="{% static 'images/property2.png' %}"
+              alt="Luxury property"
+            />
+            <div class="reservation-info">
+              <span class="reservation-status pending">PENDING</span>
+              <h3>Contemporary City Escape</h3>
+              <p><i class="fa-solid fa-location-dot"></i> Ikoyi, Lagos</p>
+              <div class="reservation-meta">
+                <span
+                  ><i class="fa-regular fa-calendar"></i> 20–23 December
+                  2026</span
+                >
+                <span><i class="fa-regular fa-user"></i> 3 Guests</span>
+              </div>
+            </div>
+            <a href="#" class="reservation-action">View details</a>
+          </div>
+        </div>
+        <div class="dashboard-content-card">
+          <div class="content-card-heading">
+            <div>
+              <h2>Recently saved</h2>
+              <p>Properties you've added to your favourites.</p>
+            </div>
+            <a href="#saved" class="view-all" data-section="saved">View all</a>
+          </div>
+          <div class="saved-grid">
+            <article class="saved-property">
+              <div class="saved-image">
+                <img
+                  src="{% static 'images/property2.png' %}"
+                  alt="Contemporary luxury apartment"
+                />
+                <button class="remove-saved" aria-label="Remove saved property">
+                  <i class="fa-solid fa-heart"></i>
+                </button>
+              </div>
+              <div class="saved-property-info">
+                <h3>Contemporary City Escape</h3>
+                <p>Ikoyi, Lagos</p>
+                <strong>₦150,000 <span>/ night</span></strong>
+              </div>
+            </article>
+            <article class="saved-property">
+              <div class="saved-image">
+                <img
+                  src="{% static 'images/property3.png' %}"
+                  alt="Luxury residence"
+                />
+                <button class="remove-saved" aria-label="Remove saved property">
+                  <i class="fa-solid fa-heart"></i>
+                </button>
+              </div>
+              <div class="saved-property-info">
+                <h3>Elegant Private Residence</h3>
+                <p>Abuja, Nigeria</p>
+                <strong>₦200,000 <span>/ night</span></strong>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="dashboard-section" id="reservations">
+        <div class="dashboard-heading">
+          <div>
+            <span class="dashboard-eyebrow">YOUR STAYS</span>
+            <h1>My reservations</h1>
+            <p>Manage your upcoming bookings.</p>
+          </div>
+        </div>
+        <div class="dashboard-content-card">
+          <div class="content-card-heading">
+            <h2>Upcoming reservations</h2>
+          </div>
+          <div class="reservation-item">
+            <img
+              src="{% static 'images/property1.png' %}"
+              alt="Modern luxury residence"
+            />
+            <div class="reservation-info">
+              <span class="reservation-status">CONFIRMED</span>
+              <h3>Modern Luxury Residence</h3>
+              <p>Victoria Island, Lagos</p>
+              <div class="reservation-meta">
+                <span>12–15 November 2026</span>
+                <span>2 Guests</span>
+              </div>
+            </div>
+            <a href="#" class="reservation-action">View details</a>
+          </div>
+          <div class="reservation-item">
+            <img
+              src="{% static 'images/property2.png' %}"
+              alt="Contemporary city escape"
+            />
+            <div class="reservation-info">
+              <span class="reservation-status pending">PENDING</span>
+              <h3>Contemporary City Escape</h3>
+              <p>Ikoyi, Lagos</p>
+              <div class="reservation-meta">
+                <span>20–23 December 2026</span>
+                <span>3 Guests</span>
+              </div>
+            </div>
+            <a href="#" class="reservation-action">View details</a>
+          </div>
+        </div>
+      </section>
+      <section class="dashboard-section" id="saved">
+        <div class="dashboard-heading">
+          <div>
+            <span class="dashboard-eyebrow">YOUR FAVOURITES</span>
+            <h1>Saved properties</h1>
+            <p>Keep track of the places you love.</p>
+          </div>
+        </div>
+        <div class="dashboard-content-card">
+          <div class="saved-grid">
+            <article class="saved-property">
+              <div class="saved-image">
+                <img
+                  src="{% static 'images/property2.png' %}"
+                  alt="Contemporary luxury apartment"
+                />
+                <button class="remove-saved" aria-label="Remove saved property">
+                  <i class="fa-solid fa-heart"></i>
+                </button>
+              </div>
+              <div class="saved-property-info">
+                <h3>Contemporary City Escape</h3>
+                <p>Ikoyi, Lagos</p>
+                <strong>₦150,000 <span>/ night</span></strong>
+              </div>
+            </article>
+            <article class="saved-property">
+              <div class="saved-image">
+                <img
+                  src="{% static 'images/property3.png' %}"
+                  alt="Luxury residence"
+                />
+                <button class="remove-saved" aria-label="Remove saved property">
+                  <i class="fa-solid fa-heart"></i>
+                </button>
+              </div>
+              <div class="saved-property-info">
+                <h3>Elegant Private Residence</h3>
+                <p>Abuja, Nigeria</p>
+                <strong>₦200,000 <span>/ night</span></strong>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="dashboard-section" id="history">
+        <div class="dashboard-heading">
+          <div>
+            <span class="dashboard-eyebrow">YOUR JOURNEY</span>
+            <h1>Booking history</h1>
+            <p>Look back on your previous stays.</p>
+          </div>
+        </div>
+        <div class="dashboard-content-card">
+          <div class="content-card-heading">
+            <h2>Previous stays</h2>
+          </div>
+          <div class="reservation-item">
+            <img
+              src="{% static 'images/property3.png' %}"
+              alt="Elegant private residence"
+            />
+            <div class="reservation-info">
+              <span class="reservation-status completed">COMPLETED</span>
+              <h3>Elegant Private Residence</h3>
+              <p>Abuja, Nigeria</p>
+              <div class="reservation-meta">
+                <span>5–8 August 2026</span>
+                <span>2 Guests</span>
+              </div>
+            </div>
+            <a href="#" class="reservation-action">View details</a>
+          </div>
+        </div>
+      </section>
+      <section class="dashboard-section" id="settings">
+        <div class="dashboard-heading">
+          <div>
+            <span class="dashboard-eyebrow">YOUR ACCOUNT</span>
+            <h1>Account settings</h1>
+            <p>Manage your personal information.</p>
+          </div>
+        </div>
+        <div class="dashboard-content-card">
+          <h2 class="settings-title">Personal information</h2>
+          <form
+            id="profileForm"
+            class="profile-form"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token %}
+            <div class="settings-grid">
+              <div class="settings-field">
+                <label for="{{ user_form.first_name.id_for_label }}"
+                  >First name</label
+                >
+                {{ user_form.first_name }} {{ user_form.first_name.errors }}
+              </div>
+              <div class="settings-field">
+                <label for="{{ user_form.last_name.id_for_label }}"
+                  >Last name</label
+                >
+                {{ user_form.last_name }} {{ user_form.last_name.errors }}
+              </div>
+              <div class="settings-field">
+                <label for="{{ user_form.email.id_for_label }}"
+                  >Email address</label
+                >
+                {{ user_form.email }} {{ user_form.email.errors }}
+              </div>
+              <div class="settings-field">
+                <label for="{{ user_form.username.id_for_label }}"
+                  >Username</label
+                >
+                {{ user_form.username }} {{ user_form.username.errors }}
+              </div>
+              <div class="settings-field">
+                <label for="{{ profile_form.image.id_for_label }}"
+                  >Profile picture</label
+                >
+                {{ profile_form.image }} {{ profile_form.image.errors }}
+              </div>
+              <div class="settings-field">
+                <label for="{{ profile_form.bio.id_for_label }}"
+                  >About me</label
+                >
+                {{ profile_form.bio }} {{ profile_form.bio.errors }}
+              </div>
+            </div>
+            <button type="submit" class="save-profile-button">
+              Save changes
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</section>
+{% endblock %} {% block extra_js %}
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

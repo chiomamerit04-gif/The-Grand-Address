@@ -1,0 +1,25 @@
+
+{% load static %}
+<header class="site-header">
+    <nav class="navbar container">
+        <a href="" class="logo">The Grand Address<span>.</span></a>
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Explore</a>
+            <a href="{% url 'property_list' %}">Stays</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'contact' %}">Contact</a>
+        </div>
+        <div class="nav-actions">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="login-link">My Account</a>
+                <a href="{% url 'logout' %}" class="btn btn-primary">Log out</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="login-link">Log in</a>
+                <a href="{% url 'register' %}" class="btn btn-primary">Sign up</a>
+            {% endif %}
+        </div>
+        <button class="menu-toggle" aria-label="Toggle navigation">
+            ☰
+        </button>
+    </nav>
+</header>
