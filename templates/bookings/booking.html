@@ -1,22 +1,32 @@
 
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}Complete Your Booking | The Grand Address{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/booking.css' %}">
 {% endblock %}
+
 {% block content %}
 <section class="booking-page">
     <div class="booking-container">
+
         <div class="booking-header">
-            <a href="{% url 'property_detail' property.id %}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to property</a>
+            <a href="{% url 'property_detail' property.id %}" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Back to property
+            </a>
             <h1>Complete your booking</h1>
             <p>You're just a few steps away from your extraordinary stay.</p>
         </div>
+
         <div class="booking-layout">
+
             <div class="booking-form">
                 <form id="bookingForm" method="POST">
                     {% csrf_token %}
+
+                    <!-- YOUR DETAILS -->
                     <section class="form-section">
                         <div class="section-heading">
                             <span class="section-number">01</span>
@@ -25,6 +35,7 @@
                                 <p>Tell us who will be staying.</p>
                             </div>
                         </div>
+
                         <div class="form-grid">
                             <div class="form-group">
                                 <label for="{{ form.full_name.id_for_label }}">Full name</label>
@@ -33,6 +44,7 @@
                                     <small class="error">{{ error }}</small>
                                 {% endfor %}
                             </div>
+
                             <div class="form-group">
                                 <label for="{{ form.email.id_for_label }}">Email address</label>
                                 {{ form.email }}
@@ -40,6 +52,7 @@
                                     <small class="error">{{ error }}</small>
                                 {% endfor %}
                             </div>
+
                             <div class="form-group full-width">
                                 <label for="{{ form.phone_number.id_for_label }}">Phone number</label>
                                 {{ form.phone_number }}
@@ -49,24 +62,37 @@
                             </div>
                         </div>
                     </section>
+
+                    <!-- YOUR STAY -->
                     <section class="form-section">
                         <div class="section-heading">
                             <span class="section-number">02</span>
                             <div>
                                 <h2>Your stay</h2>
-                                <p>Choose your preferred booking date.</p>
+                                <p>Choose your arrival and departure dates.</p>
                             </div>
                         </div>
+
                         <div class="form-grid">
-                            <div class="form-group full-width">
-                                <label for="{{ form.booking_date.id_for_label }}">Booking date</label>
-                                {{ form.booking_date }}
-                                {% for error in form.booking_date.errors %}
+                            <div class="form-group">
+                                <label for="{{ form.check_in.id_for_label }}">Check-in date</label>
+                                {{ form.check_in }}
+                                {% for error in form.check_in.errors %}
+                                    <small class="error">{{ error }}</small>
+                                {% endfor %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.check_out.id_for_label }}">Check-out date</label>
+                                {{ form.check_out }}
+                                {% for error in form.check_out.errors %}
                                     <small class="error">{{ error }}</small>
                                 {% endfor %}
                             </div>
                         </div>
                     </section>
+
+                    <!-- SPECIAL REQUESTS -->
                     <section class="form-section">
                         <div class="section-heading">
                             <span class="section-number">03</span>
@@ -75,55 +101,100 @@
                                 <p>Let us know if there's anything we should prepare.</p>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label for="{{ form.special_requests.id_for_label }}">Additional requests <span>(optional)</span></label>
+                            <label for="{{ form.special_requests.id_for_label }}">
+                                Additional requests <span>(optional)</span>
+                            </label>
                             {{ form.special_requests }}
                             {% for error in form.special_requests.errors %}
                                 <small class="error">{{ error }}</small>
                             {% endfor %}
                         </div>
                     </section>
+
                     {% if form.non_field_errors %}
                         <div class="error">
                             {{ form.non_field_errors }}
                         </div>
                     {% endif %}
-                    <button type="submit" class="confirm-button">Confirm booking <i class="fa-solid fa-arrow-right"></i></button>
-                    <p class="secure-note"><i class="fa-solid fa-lock"></i> Your personal information is protected.</p>
+
+                    <button type="submit" class="confirm-button">
+                        Confirm booking <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                    <p class="secure-note">
+                        <i class="fa-solid fa-lock"></i>
+                        Your personal information is protected.
+                    </p>
+
                     <p id="bookingMessage" class="booking-message"></p>
                 </form>
             </div>
+
+            <!-- BOOKING SUMMARY -->
             <aside class="booking-summary">
                 <div class="summary-card">
+
                     <div class="summary-property">
                         <img src="{{ property.image.url }}" alt="{{ property.name }}">
+
                         <div>
                             <span class="property-type">THE GRAND COLLECTION</span>
                             <h3>{{ property.name }}</h3>
-                            <p><i class="fa-solid fa-location-dot"></i> {{ property.location }}</p>
+                            <p>
+                                <i class="fa-solid fa-location-dot"></i>
+                                {{ property.location }}
+                            </p>
                         </div>
                     </div>
+
                     <div class="summary-divider"></div>
+
                     <h3 class="summary-title">Your reservation</h3>
+
                     <div class="summary-detail">
                         <span>Property</span>
                         <strong>{{ property.name }}</strong>
                     </div>
+
                     <div class="summary-divider"></div>
+
                     <h3 class="summary-title">Price details</h3>
-                    <div class="summary-detail">
-                        <span>Price per night</span>
-                        <strong>₦{{ property.price_per_night|floatformat:0 }}</strong>
+
+                    <div id="booking-price-calculator"
+                         data-price="{{ property.price_per_night }}">
+
+                        <div class="summary-detail">
+                            <span>Price per night</span>
+                            <strong id="price-per-night">
+                                ₦{{ property.price_per_night|floatformat:2 }}
+                            </strong>
+                        </div>
+
+                        <div class="summary-detail">
+                            <span>Number of nights</span>
+                            <strong id="number-of-nights">0</strong>
+                        </div>
+
+                        <div class="summary-divider"></div>
+
+                        <div class="summary-total">
+                            <span>Total booking price</span>
+                            <strong id="total-booking-price">Select your dates</strong>
+                        </div>
+
                     </div>
-                    <div class="summary-divider"></div>
-                    <div class="summary-total">
-                        <span>Price per night</span>
-                        <strong>₦{{ property.price_per_night|floatformat:0 }}</strong>
-                    </div>
-                    <p class="summary-note">Your booking will be submitted for confirmation.</p>
+
+                    <p class="summary-note">
+                        Your booking will be submitted for confirmation.
+                    </p>
+
                 </div>
+
                 <div class="help-card">
                     <i class="fa-regular fa-circle-question"></i>
+
                     <div>
                         <strong>Need assistance?</strong>
                         <p>Our guest support team is here to help.</p>
@@ -131,10 +202,12 @@
                     </div>
                 </div>
             </aside>
+
         </div>
     </div>
 </section>
 {% endblock %}
+
 {% block extra_js %}
 <script src="{% static 'js/bookings.js' %}"></script>
 {% endblock %}

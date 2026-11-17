@@ -22,6 +22,8 @@ class Booking(models.Model):
     phone_number = models.CharField(max_length=20)
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     booking_date = models.DateField()
+    check_in = models.DateField(null=True, blank=True)
+    check_out = models.DateField(null=True, blank=True)
     special_requests = models.TextField(blank=True)
     status = models.CharField(max_length=20, choices=[
     ('Pending', 'Pending'),

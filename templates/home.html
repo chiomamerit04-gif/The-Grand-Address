@@ -14,31 +14,42 @@
       Discover exceptional homes, beautiful spaces and unforgettable places for
       your next getaway.
     </p>
-    <form class="search-box">
-      <div class="search-field">
-        <label for="destination">WHERE</label>
-        <input type="text" id="destination" placeholder="Search destinations" />
-      </div>
-      <div class="search-field">
-        <label for="checkin">CHECK IN</label>
-        <input type="date" id="checkin" />
-      </div>
-      <div class="search-field">
-        <label for="checkout">CHECK OUT</label>
-        <input type="date" id="checkout" />
-      </div>
-      <div class="search-field">
-        <label for="guests">GUESTS</label>
-        <select id="guests">
-          <option value="1">1 Guest</option>
-          <option value="2" selected>2 Guests</option>
-          <option value="3">3 Guests</option>
-          <option value="4">4 Guests</option>
-          <option value="5">5+ Guests</option>
-        </select>
-      </div>
-      <button type="submit" class="search-btn">Search</button>
-    </form>
+
+<form class="search-box" method="GET" action="{% url 'property_list' %}">
+  <div class="search-field">
+    <label for="destination">WHERE</label>
+    <input
+      type="text"
+      id="destination"
+      name="location"
+      placeholder="Search destinations"
+    />
+  </div>
+
+  <div class="search-field">
+    <label for="checkin">CHECK IN</label>
+    <input type="date" id="checkin" name="checkin" />
+  </div>
+
+  <div class="search-field">
+    <label for="checkout">CHECK OUT</label>
+    <input type="date" id="checkout" name="checkout" />
+  </div>
+
+  <div class="search-field">
+    <label for="guests">GUESTS</label>
+    <select id="guests" name="guests">
+      <option value="1">1 Guest</option>
+      <option value="2" selected>2 Guests</option>
+      <option value="3">3 Guests</option>
+      <option value="4">4 Guests</option>
+      <option value="5">5+ Guests</option>
+    </select>
+  </div>
+
+  <button type="submit" class="search-btn">Search</button>
+</form>
+
   </div>
 </section>
 <!-- INTRODUCTION -->

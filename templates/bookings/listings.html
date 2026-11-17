@@ -1,52 +1,74 @@
-{% extends 'base.html' %} {% load static %} {% block title %}Explore Stays | The
-Grand Address{% endblock %} {% block extra_css %}
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Explore Stays | The Grand Address{% endblock %}
+
+{% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/listings.css' %}" />
-{% endblock %} {% block content %}
+{% endblock %}
+
+{% block content %}
+
 <section class="listings-hero">
   <div class="listings-container">
     <span class="eyebrow">DISCOVER YOUR NEXT STAY</span>
     <h1>Find a place worth remembering.</h1>
-    <p>
-      Explore carefully selected stays designed to make every journey special.
-    </p>
+    <p>Explore carefully selected stays designed to make every journey special.</p>
   </div>
 </section>
+
 <section class="listing-search-section">
-  <form class="listing-search" id="listingSearchForm">
+  <form class="listing-search" id="listingSearchForm" method="GET" action="{% url 'property_list' %}">
+
     <div class="listing-search-field">
       <label for="destination">Destination</label>
-      <input type="text" id="destination" placeholder="Where are you going?" />
+      <input type="text" id="destination" name="location" placeholder="Where are you going?" value="{{ location }}" />
     </div>
+
     <div class="listing-search-field">
       <label for="checkin">Check-in</label>
-      <input type="date" id="checkin" />
+      <input type="date" id="checkin" name="checkin" value="{{ checkin }}" />
     </div>
+
     <div class="listing-search-field">
       <label for="checkout">Check-out</label>
-      <input type="date" id="checkout" />
+      <input type="date" id="checkout" name="checkout" value="{{ checkout }}" />
     </div>
+
     <div class="listing-search-field">
       <label for="guests">Guests</label>
-      <select id="guests">
-        <option value="">Guests</option>
-        <option value="1">1 guest</option>
-        <option value="2">2 guests</option>
-        <option value="3">3 guests</option>
-        <option value="4">4 guests</option>
-        <option value="5">5+ guests</option>
+      <select id="guests" name="guests">
+        <option value="1" {% if guests == '1' %}selected{% endif %}>1 guest</option>
+        <option value="2" {% if guests == '2' %}selected{% endif %}>2 guests</option>
+        <option value="3" {% if guests == '3' %}selected{% endif %}>3 guests</option>
+        <option value="4" {% if guests == '4' %}selected{% endif %}>4 guests</option>
+        <option value="5" {% if guests == '5' %}selected{% endif %}>5+ guests</option>
       </select>
     </div>
+
     <button type="submit" class="listing-search-btn">Search stays</button>
   </form>
+
+  {% if date_error %}
+  <div class="search-error">{{ date_error }}</div>
+  {% endif %}
 </section>
+
 <section class="listings-section">
   <div class="listings-container">
+
     <div class="listings-heading">
       <div>
         <span class="eyebrow">OUR COLLECTION</span>
         <h2>Explore available stays</h2>
-        <p><span id="resultsCount">8</span> properties to explore</p>
+        <p>
+          <strong>{{ properties|length }}</strong>
+          {% if properties|length == 1 %}property found{% else %}properties found{% endif %}
+          {% if location %}in {{ location }}{% endif %}
+        </p>
       </div>
+
       <div class="sort-control">
         <label for="sortProperties">Sort by</label>
         <select id="sortProperties">
@@ -57,144 +79,114 @@ Grand Address{% endblock %} {% block extra_css %}
         </select>
       </div>
     </div>
+
     <div class="listings-layout">
+
       <aside class="filters-sidebar">
+
         <div class="filter-heading">
           <h3>Filters</h3>
           <button type="button" id="clearFilters">Clear all</button>
         </div>
+
         <div class="filter-group">
           <h4>Maximum price per night</h4>
           <div class="price-value">₦<span id="priceValue">500,000</span></div>
-          <input
-            type="range"
-            id="priceRange"
-            min="50000"
-            max="500000"
-            step="10000"
-            value="500000"
-          />
+          <input type="range" id="priceRange" min="50000" max="500000" step="10000" value="500000" />
           <div class="price-range-labels">
             <span>₦50,000</span>
             <span>₦500,000+</span>
           </div>
         </div>
+
         <div class="filter-group">
           <h4>Location</h4>
-          <label class="filter-option"
-            ><input type="checkbox" name="location" value="Lagos" />
-            Lagos</label
-          >
-          <label class="filter-option"
-            ><input type="checkbox" name="location" value="Abuja" />
-            Abuja</label
-          >
-          <label class="filter-option"
-            ><input type="checkbox" name="location" value="London" />
-            London</label
-          >
-          <label class="filter-option"
-            ><input type="checkbox" name="location" value="Dubai" />
-            Dubai</label
-          >
+          <label class="filter-option"><input type="checkbox" name="location_filter" value="Lagos" /> Lagos</label>
+          <label class="filter-option"><input type="checkbox" name="location_filter" value="Abuja" /> Abuja</label>
+          <label class="filter-option"><input type="checkbox" name="location_filter" value="London" /> London</label>
+          <label class="filter-option"><input type="checkbox" name="location_filter" value="Dubai" /> Dubai</label>
         </div>
+
         <div class="filter-group">
           <h4>Property type</h4>
-          <label class="filter-option"
-            ><input type="checkbox" name="type" value="Apartment" />
-            Apartment</label
-          >
-          <label class="filter-option"
-            ><input type="checkbox" name="type" value="Villa" /> Villa</label
-          >
-          <label class="filter-option"
-            ><input type="checkbox" name="type" value="Hotel" /> Hotel</label
-          >
-          <label class="filter-option"
-            ><input type="checkbox" name="type" value="Penthouse" />
-            Penthouse</label
-          >
+          <label class="filter-option"><input type="checkbox" name="type" value="Apartment" /> Apartment</label>
+          <label class="filter-option"><input type="checkbox" name="type" value="Villa" /> Villa</label>
+          <label class="filter-option"><input type="checkbox" name="type" value="Hotel" /> Hotel</label>
+          <label class="filter-option"><input type="checkbox" name="type" value="Penthouse" /> Penthouse</label>
         </div>
+
         <div class="filter-group">
           <h4>Bedrooms</h4>
-          <label class="filter-option"
-            ><input type="radio" name="bedrooms" value="1" /> 1 bedroom</label
-          >
-          <label class="filter-option"
-            ><input type="radio" name="bedrooms" value="2" /> 2 bedrooms</label
-          >
-          <label class="filter-option"
-            ><input type="radio" name="bedrooms" value="3" /> 3 bedrooms</label
-          >
-          <label class="filter-option"
-            ><input type="radio" name="bedrooms" value="4" /> 4+ bedrooms</label
-          >
+          <label class="filter-option"><input type="radio" name="bedrooms" value="1" /> 1 bedroom</label>
+          <label class="filter-option"><input type="radio" name="bedrooms" value="2" /> 2 bedrooms</label>
+          <label class="filter-option"><input type="radio" name="bedrooms" value="3" /> 3 bedrooms</label>
+          <label class="filter-option"><input type="radio" name="bedrooms" value="4" /> 4+ bedrooms</label>
         </div>
+
         <div class="filter-group">
           <h4>Amenities</h4>
-          <label class="filter-option"
-            ><input type="checkbox" name="amenity" value="Pool" /> Swimming
-            pool</label
-          >
-          <label class="filter-option"
-            ><input type="checkbox" name="amenity" value="Wifi" /> Free
-            Wi-Fi</label
-          >
-          <label class="filter-option"
-            ><input type="checkbox" name="amenity" value="Parking" /> Free
-            parking</label
-          >
-          <label class="filter-option"
-            ><input type="checkbox" name="amenity" value="Gym" /> Gym</label
-          >
-          <label class="filter-option"
-            ><input type="checkbox" name="amenity" value="Kitchen" />
-            Kitchen</label
-          >
+          <label class="filter-option"><input type="checkbox" name="amenity" value="Pool" /> Swimming pool</label>
+          <label class="filter-option"><input type="checkbox" name="amenity" value="Wifi" /> Free Wi-Fi</label>
+          <label class="filter-option"><input type="checkbox" name="amenity" value="Parking" /> Free parking</label>
+          <label class="filter-option"><input type="checkbox" name="amenity" value="Gym" /> Gym</label>
+          <label class="filter-option"><input type="checkbox" name="amenity" value="Kitchen" /> Kitchen</label>
         </div>
+
       </aside>
+
       <div class="listings-results">
+
         <div class="properties-grid" id="listingPropertyGrid">
+
           {% for property in properties %}
-          <article
-            class="property-card listing-card"
-            data-location="{{ property.location }}"
-            data-price="{{ property.price_per_night }}"
-            data-bedrooms="{{ property.bedrooms }}"
-          >
+
+          <article class="property-card listing-card"
+                   data-location="{{ property.location }}"
+                   data-price="{{ property.price_per_night }}"
+                   data-bedrooms="{{ property.bedrooms }}">
+
             <div class="property-image">
               <img src="{{ property.image.url }}" alt="{{ property.name }}" />
-              <button
-                type="button"
-                class="favourite-btn"
-                aria-label="Add to favourites"
-              >
-                ♡
-              </button>
+              <button type="button" class="favourite-btn" aria-label="Add to favourites">♡</button>
             </div>
+
             <div class="property-info">
               <div class="property-location">{{ property.location }}</div>
+
               <h3>{{ property.name }}</h3>
-              <p>
-                {{ property.bedrooms }} bedrooms · {{ property.bathrooms }}
-                bathrooms · {{ property.guests }} guests
-              </p>
+
+              <p>{{ property.bedrooms }} bedrooms · {{ property.bathrooms }} bathrooms · {{ property.guests }} guests</p>
+
               <div class="property-price">
                 ₦{{ property.price_per_night|floatformat:0 }}
                 <span>/ night</span>
               </div>
-              <a href="{% url 'property_detail' property.id %}">View Details</a>
+
+              <a href="{% url 'property_detail' property.id %}" class="view-details-btn">
+                View Details <i class="fa-solid fa-arrow-right"></i>
+              </a>
+
             </div>
           </article>
+
           {% empty %}
-          <p>No available properties at the moment.</p>
+
+          <div class="no-properties-message">
+            <h3>No properties found</h3>
+            <p>Sorry, we couldn't find any available properties{% if location %} in {{ location }}{% endif %}.</p>
+            <a href="{% url 'property_list' %}">Explore all available stays</a>
+          </div>
+
           {% endfor %}
+
         </div>
+
         <div class="no-results" id="noResults" hidden>
           <h3>No properties found</h3>
           <p>Try changing your filters or search for another destination.</p>
           <button type="button" id="resetSearch">Clear filters</button>
         </div>
+
         <div class="pagination">
           <button type="button" disabled>Previous</button>
           <button type="button" class="current-page">1</button>
@@ -202,10 +194,14 @@ Grand Address{% endblock %} {% block extra_css %}
           <button type="button" disabled>3</button>
           <button type="button" disabled>Next</button>
         </div>
+
       </div>
     </div>
   </div>
 </section>
-{% endblock %} {% block extra_js %}
+
+{% endblock %}
+
+{% block extra_js %}
 <script src="{% static 'js/listings.js' %}"></script>
 {% endblock %}

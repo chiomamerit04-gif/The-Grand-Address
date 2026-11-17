@@ -344,6 +344,37 @@
     opacity: 0.45;
     cursor: not-allowed;
 }
+.view-details-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 13px 20px;
+    margin-top: 18px;
+    background: var(--primary-color);
+    color: var(--light-text);
+    text-decoration: none;
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.view-details-btn:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--dark-background);
+    transform: translateY(-2px);
+}
+.view-details-btn i {
+    transition: transform 0.3s ease;
+}
+.view-details-btn:hover i {
+    transform: translateX(4px);
+}
+
 @media (max-width: 1000px) {
     .listing-search {
         grid-template-columns: repeat(2, 1fr);
