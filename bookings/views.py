@@ -1,11 +1,14 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Property, Booking
-from .forms import BookingForm, ContactMessageForm
 from django.contrib import messages
-from django.core.mail import send_mail
 from django.utils.dateparse import parse_date
 from django.db import transaction
+from django.conf import settings
+
+from .models import Property, Booking
+from .forms import BookingForm, ContactMessageForm
+
+import requests
 
 
 def home(request):
@@ -135,6 +138,7 @@ def booking_view(request, property_id):
                 booking.property = locked_property
                 booking.save()
 
+            # Calculate booking price
             nights = (booking.check_out - booking.check_in).days
             total_price = booking.property.price_per_night * nights
 
@@ -163,23 +167,40 @@ Our team will contact you regarding your reservation.
 Thank you for choosing The Grand Address!
 """
 
+            # Send booking confirmation using Resend API
             try:
-                send_mail(
-                    subject,
-                    email_message,
-                    None,
-                    [booking.email],
-                    fail_silently=False
+                response = requests.post(
+                    'https://api.resend.com/emails',
+                    headers={
+                        'Authorization': f'Bearer {settings.RESEND_API_KEY}',
+                        'Content-Type': 'application/json',
+                    },
+                    json={
+                        'from': settings.DEFAULT_FROM_EMAIL,
+                        'to': [booking.email],
+                        'subject': subject,
+                        'text': email_message,
+                    },
+                    timeout=10,
                 )
 
-            except Exception as e:
+                response.raise_for_status()
+
+            except requests.exceptions.RequestException as e:
                 print("BOOKING EMAIL ERROR:", e)
+
+                if 'response' in locals() and response is not None:
+                    print("RESEND RESPONSE:", response.text)
+
                 messages.warning(
                     request,
                     'Your booking was saved, but we could not send your confirmation email.'
                 )
 
-            return redirect('booking_success', booking_id=booking.id)
+            return redirect(
+                'booking_success',
+                booking_id=booking.id
+            )
 
     else:
         form = BookingForm()
@@ -202,10 +223,12 @@ def contact(request):
 
         if form.is_valid():
             form.save()
+
             messages.success(
                 request,
                 'Your message has been sent successfully. Thank you for contacting us!'
             )
+
             return redirect('contact')
 
     else:
@@ -217,5 +240,13 @@ def contact(request):
 
 def booking_success(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
-    context = {'booking': booking}
-    return render(request, 'bookings/booking_success.html', context)
+
+    context = {
+        'booking': booking
+    }
+
+    return render(
+        request,
+        'bookings/booking_success.html',
+        context
+    )
